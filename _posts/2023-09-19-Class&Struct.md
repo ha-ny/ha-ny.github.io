@@ -170,3 +170,88 @@ SwiftStruct.apple
 ```
 
 Swiftstruct 타입을 참조하면 apple 프로퍼티가 뜬다  
+
+## 7. 참조 타입과 값 타입
+
+Class (reference type) =  참조 타입 (주소 값을 참조한다)  
+Struct (value type) = 값 타입(값을 저장한다)
+
+```swift
+class SwiftClass {
+
+    var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+
+let valueC = SwiftClass(name: "이름")
+valueC.name = "Class 이름"
+
+struct SwiftStruct {
+
+    var name: String
+}
+
+let valueS = SwiftStruct(name: "이름")
+valueS.name = "Struct 이름" //Cannot assign to property: 'valueS' is a 'let' constant, Change 'let' to 'var' to make it mutable
+```
+
+- 같은 형태의 코드인데 왜 마지막 줄은 오류가 날까?  
+valueS는 let이라서 name값을 바꿀수 없다고 한다. valueC는 let인데 name 값을 바꿀 수 있다.  
+Class는 주소 값을 참조한다. → valueC의 값이 아닌 주소 값에 있는 데이터를 변경하는 것이다.  
+Struct는 값을 저장한다. → valueS는 자신이 저장한 값이 직결되어 있어, 값이 변경된다. -> Change 'let' to 'var'
+
+```swift
+class SwiftClass {
+
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+}
+
+let valueC = SwiftClass(name: "이름")
+let value222 = valueC
+value222.name = "222 이름"
+print(valueC.name)
+print(value222.name)
+
+print("--------------------")
+
+struct SwiftStruct {
+
+    var name: String
+}
+
+let valueS = SwiftStruct(name: "이름")
+var valueS222 = valueS
+valueS222.name = "222 이름"
+print(valueS.name)
+print(valueS222.name)
+
+
+결과:
+222 이름
+222 이름
+--------------------
+이름
+222 이름
+```
+
+
+- 같은 형태의 코드인데 왜 값이 다를까?  
+Class는 주소 값을 참조한다. → valueC222 = valueC -> valueC222와 valueC는 같은 주소를 바라보고 있다 -> 변경된 값을 공유한다.
+Struct는 값을 저장한다. → valueS222 = valueS 이 의미하는 것은 valueS의 값을 복사(사본) 하는 것이다. -> valueS222를 수정해도 valueS의 데이터는 수정되지 않는다.   
+
+위 코드에서 valueS는 let이라서 name 값을 바꿀 수 없었다. 만약 valueS222를 수정 시 valueS의 값이 변경된다면 valueS은 let으로 선언되어 있기 때문에 오류가 났을 것이다
+
+- 참조 타입
+![Imgur](https://i.imgur.com/YqrnUUK.png)
+
+- 값 타입
+![Imgur](https://i.imgur.com/2khbRjr.png)
+
+
