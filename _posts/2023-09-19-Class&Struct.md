@@ -58,8 +58,6 @@ one을 상속받은 two도 zero의 함수를 사용할 수 있는데, 상속
 class는 상속 관계를 가질 수 있다 → 부모는 하나지만 자식은 여럿일 수 있다 → 단일 상속  
 struct는 상속 관계를 가질 수 없다 → 부모도 자식도 안된다 
 
----
-
 ## 5. Instance
 
 <img width="342" alt="4" src="https://github.com/ha-ny/ha-ny/assets/130643750/d65610e2-6ce1-4b4a-8775-1787c17f2efa">
