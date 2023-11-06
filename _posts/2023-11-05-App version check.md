@@ -24,3 +24,40 @@ Version 체크는 대체로 점(.)을 기준으로 나눈 후 사용자 앱의 m
 
 예전에 작성해 둔 compare과 ComparisonResult 설명이다.<br>
 ->  [compare](https://ha-ny.github.io/2023-10-01/compare)
+
+- compare을 사용하는 방법과 점을 기준으로 버전을 비교하는 방식은 뭐가 다를까?
+가볍게 생각한다면 major를 비교하는 기능을 만들어둔 상태라면 minor 또는 patch까지 범위를 늘리기는 쉬울 것이다! 반대로 major 대신 patch만 비교하는 코드로 변경하는 것도 쉬울 텐데 compare을 사용한 상태에서 major만 비교해야 한다면?.. 유지 보수의 관점에서 compare로 버전을 비교하는 것은 추천하지 않을 것 같다.<br>
+
+강제 업데이트는 앱 진입을 막고, 앱스토어를 연결해서 앱을 사용하지 못하게 하기 때문에 진입을 막으려면 AppDelegate 또는 LaunchScreen에서진행하면 된다. 하지만 나는 캘린더 뷰를 백그라운드처럼 깔고 Alert을 띄우고 싶었다.<br>
+
+그래서 아래 View 코드는 CalendarViewController의 viewDidLoad에서 실행한다.<br>
+
+개인 앱의 장점은 내 입맛에 맞춰도 되는 것 아닐까?? 강제 업데이트 +  compare 비교 코드로 작성했다<br>
+1. 선택 업데이트를 진행하지 않은 이유:  앱이 온전히 자리 잡기 전이라 버그 잡느라 바쁘다 바빠. 가끔 사용자의 데이터와 직결되는 문제가 있어, 당분간은 강제적으로 업데이트를 진행하려고 한다.
+2. compare 비교 코드를 작성한 이유: 위에서 말한 것처럼 버전을 한 번에 비교할 수 있는 방법이 궁금했고, 예전에 공부해둔 compare을 제대로 사용해 볼 좋은 기회였다! 다른 개발자분들의 Version 체크 코드를 많이 둘러봤으니 요정도는 내 재량이라고 생각한다.
+<br>
+
+# 코드
+## View
+
+```swift
+private func appVersionCheck() {
+    AppVersionCheck.updateRequired { url in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if let url {
+                    UIAlertController.customMessageAlert(view: self, title: "appVersionCheckTitle".localized, message: "appVersionCheckMessage".localized) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:]) { _ in
+                                exit(0)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+UIApplication.shared.open의 CompeletionHandler를 사용해서 앱스토어로 화면이 넘어간 후 exit 코드가 작동한다. 화면이 넘어간 후 exit 코드를 읽기 때문에 코드를 읽었음에도 앱에 다시 돌아왔을 때 강제 종료가 아닌 팝업이 그대로 남아있게 된다. 아무리 찾아봐도 왜 이렇게 되는지 찾을 수 없었지만 일단 내가 원하는 대로 작동하기 때문에 냅둔다 ..ㅎㅎ (exit은 애플이 권장하지 않는 방법 중 하나이기 때문에 아마 정상적인 코드 실행이 아닐 땐 작동하지 않는 것 같기도 하다.)
+<br>
