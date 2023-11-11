@@ -64,3 +64,39 @@ tags:
 멘토님의 코드 리뷰를 통해 가독성과 유지 보수성을 높이는 작업에 집중했고, 프로젝트의 확장성과 지속적인 유지 보수의 중요성을 다시 한번 깨닫게 되었습니다.
 
 추후 RXSwift를 도입하여 데이터의 명확한 흐름과 비동기 작업을 추상화하는 작업을 계획하고 있습니다. 이를 통해 다음 업데이트에서는 더 나은 성과를 이룰 수 있을 것으로 기대합니다.
+
+### **버전 정보**
+
+1. 1.0.0 (2023/10/26) → 출시
+2. 1.0.1 (2023/10/29) → bug FIx
+    피드백 반영
+    1. 직관적인 아이콘 변경
+    2. 수업등록 - 요일 시간(24:00) 선택시 라벨이 변경되지 않는 문제 해결
+    3. 수업등록 - 학생 스크롤뷰 이름 잘림 해결(button sizeToFit)
+    4. 데이터 유효성 검사 로직 구현
+    5. 앱 번들 네임 변경
+    6. 캘린더 - 리스트 상단 디자인 변경
+3. 1.1.0 (2023/11/20) → 기능 추가
+    1. 최신 버전 체크 - 업데이트 유도
+    2. 캘린더 week / Month 기능 추가
+    3. 캘린더 리스트 Cell 디자인 변경
+    4. Analytics 코드 수정
+    5. Localizable: AppVersionCheck 추가
+    6. Localizable: English - button text 잘림 해결
+
+### **작업일지**
+
+| 일자   | 작업 내용                                                                                   | 일자   | 작업 내용                                                               |
+|-------|------------------------------------------------------------------------------------------|-------|----------------------------------------------------------------------|
+| 09.27 | • 프로젝트 기본 세팅 (1h → 15m) <br> • 다국어 지원 및 탭바 컨트롤러 추가 (1h → 38m) <br> • 메인 캘린더 생성 (3h → 4h) | 10.12 | • 수업등록 <br> 1. 데이터 생성 (2h → 2h) <br> 2. 삭제 - 데이터 일괄 삭제 (현재 날짜 이전 데이터는 지우지 않음) (1h → 1h30m) <br> • 코드 정리(3h → 2h 10m) |
+| 09.28 | • 메인 캘린더 수정(3h →1h 40m) <br> • 검색 화면 완성(2h →2h 20m)                            | 10.15 | • 수업등록 <br> 1. 데이터 수정 (30m → 1h) <br> 2. 시작날짜 선택시 종료날짜 변경 (30m → 10m) <br> 3. 테스트 완료 - 완성! (10m → 10m) <br> • 캘린더 <br> 1. 상단 DatePicker 삭제 (10m → 5m) <br> 2. 캘린더 위 Label 디자인 변경 (20m → 45m) <br> 3. 날짜 선택시 tableView 데이터 reload (10m → 15m) |
+| 10.01 | • 학생관리 화면 생성 (1h → 30m) <br> • 학생 등록 화면 생성 (1h → 1h 30m) <br> • realm 구조 잡기 (1h → 30m) <br> • 학생 등록 데이터 생성 (1h → 21m) | 10.16 | • 캘린더 <br> 1. 캘린더 Label 오류 수정 (30m → 30m) <br> 2. tableView data setting (30m → 20m) <br> 3. 오늘 날짜 선택시 tableView data 변경 (30m → 15m) |
+| 10.03 | • 일정 등록 화면, 수업 등록 화면 디자인 합침 (2h→ 3h 30m) <br> • sheetPresentationController 사용 (1h → 1h 20m) | 10.18 | • 캘린더 <br> 1. 수업 저장시 캘린더 다시 그리기 Notification Center (30m → 30m) <br> 2. 캘린더 상단 pickerView - Label로 변경 (10m → 5m) <br> • realm <br> 1. 학생, 수업 table구조 변경 - 삭제 대신 isHidden true (30m → 10m) <br> 2. 검색 및 데이터 불러올때 isHidden check 로직 생성(30m → 20m) |
+| 10.05 | • 코드 정리(1h → 2h 30m) <br> • 수업등록 디자인 변경(40m → 30m) <br> • 학생 목록 sheet 생성(30m → 30m) | 10.19 | • 수업등록 <br> 1. 요일 PickerView 휠 돌릴때 label에 보여주기 - 대충 돌리고 저장 버튼 누르면 기본값이 저장됨 (15m → 30m) <br> • MVC → MVVM 구조 변경 <br> 1. EditStudent 완성! (1h → 2h25m) |
+| 10.06 | • pickerView loop 수정 (30m → 40m) <br> • 일정등록 화면 디자인 변경 - 시작날짜/종료날짜 추가 (30m → 1h) <br> • 요일 데이터 update 대응 (30m → 5m) <br> • 일정관리 리스트 완성 (30m → 45h) <br> • delegate → 저장 버튼 눌렀을 때만 tableView reload (30m → 15m) <br> • generic → RealmRepository (1h → 1h) <br> • realm table 완성 (1h → 1h 20m) | 10.21 | MVC → MVVM 구조 변경 <br> • StudentManagementView 완성 (1h → 1h) <br> • ClassManagementView 완성 (1h → 20m) <br> • CalendarViewr 완성 (1h → 40m) <br> • 코드 정리(1h → 55m) |
+| 10.08 | • 학생 관리 / 일정 등록 리스트, 추가화면 - 뷰, 컨트롤러 구분 (1h → 1h30m) <br> • 학생관리 <br> 1. 리스트 삭제(realm)  (30m → 30m) <br> 2. 리스트 sort(realm) (30m → 15m) <br> 3. 추가 화면 - 필수 체크(Name), textField 포커스 변경 구현 (30m → 45m) | 10.22 | MVC → MVVM 구조 변경 <br> • EditClassView 완성 (1h → 1h) <br> • StudentListView 완성 (1h → 30h) <br> • DatePickHalfView 완성 (1h → 20h) <br> • 파일 정리 (30m → 20m) |
+| 10.09 | • 학생 관리 <br> 1. 연락처 가져오기 - 권한 체크 <br> 2. 학생 관리 리스트 클릭 → 수정화면 구현 + realm Update | 10.23 | • Error Handleing 완성  (3h → 1h 50m) <br> • 다국어 처리 완성  (2h → 1h 30m) |
+| 10.10 | • 학생 관리 테스트+데이터 완성 (2h → 2h) <br> • 개발 범위 줄이기 (30m → 15m) <br> • realm SchemaVersion 생성 | 10.25 | • 테스트 (2h → 7h) <br> 1. 수업 저장 후 캘린더, 리스트 reload <br> 2. 수업일정 - realm table 수정 <br> 3. 일정 삭제시 오류 → newTable에 값 새로 넣고 isHidden true <br> 4. 캘린더 리스트 select <br> • 앱 로고 제작 (20m → 1h) <br> • 앱 심사 제출 (1m → 2h) |
+| 10.11 | • 학생 등록 <br> 1. Add/update 코드 합침 → EditView (1h → 1h 10m) <br> 2. 테스트 완료 - 완성! (10m → 15m) <br> • 수업 등록 <br> 1. Add/update 코드 합침 → EditView (1h → 30m) | 10.26 | 출시 완료 |
+
+
