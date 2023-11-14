@@ -61,3 +61,54 @@ private func appVersionCheck() {
 
 UIApplication.shared.open의 CompeletionHandler를 사용해서 앱스토어로 화면이 넘어간 후 exit 코드가 작동한다. 화면이 넘어간 후 exit 코드를 읽기 때문에 코드를 읽었음에도 앱에 다시 돌아왔을 때 강제 종료가 아닌 팝업이 그대로 남아있게 된다. 아무리 찾아봐도 왜 이렇게 되는지 찾을 수 없었지만 일단 내가 원하는 대로 작동하기 때문에 냅둔다 ..ㅎㅎ (exit은 애플이 권장하지 않는 방법 중 하나이기 때문에 아마 정상적인 코드 실행이 아닐 땐 작동하지 않는 것 같기도 하다.)
 <br>
+
+## AppVersionCheck
+
+```swift
+class AppVersionCheck {
+
+    static private let appleID = "123456789"
+
+    //업데이트 필요 여부 확인
+    static func updateRequired(_ completion: @escaping (URL?) -> ()) {
+        guard let oldVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else { return completion(nil) }
+
+        getLatestAppStoreVersion { latestVersion in
+            guard let latestVersion else { return completion(nil) }
+            
+            let compareResult = oldVersion.compare(latestVersion, options: .numeric)
+            switch compareResult {
+            case .orderedAscending: //앱 스토어 보다 낮은 버전(업데이트 필요)
+                guard let url = URL(string: "itms-apps://itunes.apple.com/app/apple-store/\(appleID)") else { return completion(nil)}
+                
+                return completion(url)
+            case .orderedDescending, .orderedSame: // 앱스토어 보다 높은 버전 또는 버전이 같은 경우
+                return completion(nil)
+            }
+        }
+    }
+
+    //앱 스토어 최신 버전 체크
+    private static func getLatestAppStoreVersion(_ completion: @escaping (String?) -> ()) {
+        guard let url = URL(string: "http://itunes.apple.com/lookup?id=\(appleID)") else { return completion(nil) }
+        
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else { return completion(nil) }
+            
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else { return completion(nil) }
+                guard let results = json["results"] as? [[String: Any]] else { return completion(nil) }
+                guard let appStoreVersion = results[0]["version"] as? String else { return completion(nil) }
+                return completion(appStoreVersion)
+            } catch { }
+        }.resume()
+        return completion(nil)
+    }
+}
+```
+
+AppleID는 < Connect 앱 -> 원하는 앱 선택 -> 앱  정보 > 에서 확인할 수 있다.<br>
+
+getLatestAppStoreVersion: itunes API로 원하는 앱의 정보를 가져온다. 정보 중 버전을 추출해서 completion에 담는다.<br>
+updateRequired: getLatestAppStoreVersion에서 가져온 최신 버전과 현재 앱 버전을 비교하고 업데이트가 필요하다면 url를 던져서 view에서 받는다.
+
